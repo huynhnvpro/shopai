@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopAI & Giải Pháp Số — Dịch Vụ & Danh Mục Sản Phẩm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Thanh điều hướng -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Shop<span>AI</span> 24H</a>
+      <nav class="nav-links">
+        <a href="#dich-vu">Dịch vụ</a>
+        <a href="#san-pham">Sản phẩm</a>
+        <a href="admin.html" class="btn btn-outline">Quản lý danh mục</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Banner giới thiệu -->
+  <section class="hero">
+    <h1>Giải Pháp Công Nghệ & Trợ Lý AI Toàn Diện Cho Doanh Nghiệp</h1>
+    <p>Tối ưu hóa quy trình marketing, tự động hóa bán hàng và bứt phá doanh thu với hệ sinh thái công cụ số hiện đại.</p>
+    <a href="#san-pham" class="btn btn-primary" style="padding: 0.85rem 1.8rem; font-size: 1.05rem;">Khám phá danh mục sản phẩm</a>
+  </section>
+
+  <!-- Phần 1: Giới thiệu dịch vụ -->
+  <section id="dich-vu" class="container">
+    <div class="section-title">
+      <h2>Dịch Vụ Cốt Lõi Của Chúng Tôi</h2>
+      <p>Đồng hành cùng cá nhân và doanh nghiệp chuyển đổi số hiệu quả</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">01</div>
+        <h3>Tư Vấn & Triển Khai AI</h3>
+        <p>Xây dựng chatbot chăm sóc khách hàng 24/7, tự động hóa quy trình viết nội dung và xử lý dữ liệu nội bộ.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">02</div>
+        <h3>Quảng Cáo Số Đa Nền Tảng</h3>
+        <p>Triển khai chiến dịch Facebook Ads, Google Ads, TikTok Ads tối ưu chi phí chuyển đổi thực tế.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">03</div>
+        <h3>Thiết Kế Website & Landing Page</h3>
+        <p>Xây dựng hệ thống website tốc độ cao, chuẩn SEO, tích hợp sẵn giỏ hàng và công cụ đo lường.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Phần 2: Danh mục sản phẩm (Shop) -->
+  <section id="san-pham" class="container" style="padding-top: 1rem;">
+    <div class="section-title">
+      <h2>Danh Mục Sản Phẩm & Công Cụ Số</h2>
+      <p>Lựa chọn giải pháp phù hợp với nhu cầu của bạn</p>
+    </div>
+
+    <!-- Thanh lọc danh mục và tìm kiếm -->
+    <div class="shop-controls">
+      <div class="category-tabs" id="categoryTabs"></div>
+      <input type="text" id="searchInput" class="search-box" placeholder="Tìm kiếm tên sản phẩm...">
+    </div>
+
+    <!-- Lưới hiển thị sản phẩm -->
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- Modal Đăng ký tư vấn / Mua hàng -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 0.5rem;">Đăng Ký Dịch Vụ / Sản Phẩm</h3>
+      <p id="orderProductName" style="color: var(--primary); font-weight: 600; margin-bottom: 1rem;"></p>
+      <form onsubmit="submitOrder(event)">
+        <div class="form-group">
+          <label>Họ và tên của bạn *</label>
+          <input type="text" id="cusName" required placeholder="Nguyễn Văn A">
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại / Zalo *</label>
+          <input type="tel" id="cusPhone" required placeholder="0901 234 567">
+        </div>
+        <div class="form-group">
+          <label>Ghi chú thêm (nếu có)</label>
+          <textarea rows="2" placeholder="Yêu cầu tư vấn chi tiết..."></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.25rem;">
+          <button type="button" class="btn btn-outline" onclick="closeOrderModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 ShopAI 24H — Hệ thống giới thiệu dịch vụ & danh mục sản phẩm số.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

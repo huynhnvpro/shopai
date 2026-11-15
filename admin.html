@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Danh Mục Sản Phẩm — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo">Shop<span>AI</span> Admin</a>
+      <div class="nav-links">
+        <button class="btn btn-success" onclick="exportJSON()">Xuất file JSON</button>
+        <a href="index.html" class="btn btn-primary">Xem trang chủ &rarr;</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="admin-grid">
+      <!-- Cột trái: Quản lý Danh mục & Form thêm/sửa sản phẩm -->
+      <div>
+        <!-- Quản lý danh mục -->
+        <div class="panel" style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.75rem;">1. Quản lý Danh mục</h3>
+          <div style="display: flex; gap: 8px; margin-bottom: 0.75rem;">
+            <input type="text" id="newCatName" placeholder="Tên danh mục mới..." style="flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:6px;">
+            <button class="btn btn-primary" onclick="addCategory()">Thêm</button>
+          </div>
+          <div id="categoryList"></div>
+        </div>
+
+        <!-- Form thêm / sửa sản phẩm -->
+        <div class="panel">
+          <h3 id="formTitle" style="margin-bottom: 1rem;">2. Thêm sản phẩm mới</h3>
+          <form id="productForm">
+            <input type="hidden" id="prodId">
+            <div class="form-group">
+              <label>Tên sản phẩm / Dịch vụ *</label>
+              <input type="text" id="prodName" required placeholder="VD: Gói Chatbot AI Bán Hàng">
+            </div>
+            <div class="form-group">
+              <label>Danh mục *</label>
+              <select id="prodCategory" required></select>
+            </div>
+            <div class="form-group">
+              <label>Giá bán (VNĐ) *</label>
+              <input type="number" id="prodPrice" required placeholder="500000">
+            </div>
+            <div class="form-group">
+              <label>Link hình ảnh (URL)</label>
+              <input type="url" id="prodImage" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label>Mô tả ngắn *</label>
+              <textarea id="prodDesc" rows="3" required placeholder="Mô tả tính năng nổi bật..."></textarea>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="submit" class="btn btn-primary" style="flex:1; justify-content:center;">Lưu sản phẩm</button>
+              <button type="button" class="btn btn-outline" onclick="resetProductForm()">Làm mới</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Cột phải: Danh sách sản phẩm hiện có -->
+      <div class="panel">
+        <h3>Danh sách sản phẩm đang hiển thị</h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">
+          Lưu ý: Dữ liệu được lưu trực tiếp trên trình duyệt của bạn. Để cập nhật cố định cho mọi khách truy cập trên GitHub Pages, hãy bấm <strong>"Xuất file JSON"</strong> và dán nội dung vào biến <code>DEFAULT_DATA</code> trong file <code>app.js</code>.
+        </p>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Sản phẩm / Danh mục</th>
+                <th>Giá bán</th>
+                <th style="width: 120px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
