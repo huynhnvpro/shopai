@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Hub VN — Tin Tức AI Tự Động, Sản Phẩm AI &amp; Thư Viện Prompt</title>
+  <!-- Google Fonts: Inter & JetBrains Mono cho khung Prompt -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Ẩn thanh cuộn ngang cho dải bộ lọc trên mobile */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Hiệu ứng mở Modal */
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-modal {
+      animation: modalSlideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Hiệu ứng pulse nhẹ cho nút Zalo/Hotline */
+    @keyframes ringPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
+      70% { box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+    .pulse-ring {
+      animation: ringPulse 2.2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- ================= 1. HEADER & ĐIỀU HƯỚNG HIỆN ĐẠI ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[70px] flex items-center justify-between gap-4">
+      <!-- Logo thương hiệu -->
+      <a href="#" class="flex items-center gap-2.5 group shrink-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center font-black text-base sm:text-lg shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
+          AI
+        </div>
+        <div>
+          <span class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight block leading-none">
+            AI Hub <span class="text-blue-600">VN</span>
+          </span>
+          <span class="text-[10px] sm:text-[11px] font-medium text-slate-500 tracking-wide">Tin tức &bull; Sản phẩm &bull; Prompt</span>
+        </div>
+      </a>
+
+      <!-- Menu điều hướng (Desktop) -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-600">
+        <a href="#tin-tuc-ai" class="hover:text-blue-600 transition-colors">Tin tức AI</a>
+        <a href="#san-pham-ai" class="hover:text-blue-600 transition-colors">Sản phẩm nổi bật</a>
+        <a href="#thu-vien-prompt" class="hover:text-blue-600 transition-colors">Thư viện Prompt</a>
+        <a href="#tu-van-nang-cap" class="hover:text-blue-600 transition-colors">Tư vấn nâng cấp tài khoản</a>
+      </nav>
+
+      <!-- Nút gọi nhanh & Menu mobile -->
+      <div class="flex items-center gap-2.5">
+        <a href="tel:0976070758" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2.5 rounded-xl shadow-sm shadow-blue-600/25 transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>0976 070758</span>
+        </a>
+
+        <!-- Nút mở menu trên Mobile/Tablet -->
+        <button id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Mở menu" class="lg:hidden p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu xổ xuống trên Mobile -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 py-3 space-y-1.5 shadow-lg">
+      <a href="#tin-tuc-ai" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600">Tin tức AI tự động</a>
+      <a href="#san-pham-ai" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600">Sản phẩm nổi bật (OpenAI, Google, Anthropic)</a>
+      <a href="#thu-vien-prompt" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600">Thư viện Mẹo &amp; Prompt AI</a>
+      <a href="#tu-van-nang-cap" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/70">Tư vấn nâng cấp tài khoản chính chủ</a>
+    </div>
+  </header>
+
+  <!-- ================= HERO GIỚI THIỆU TỔNG QUAN ================= -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white py-12 sm:py-16 px-4 sm:px-6">
+    <div class="absolute -top-24 right-1/4 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div class="max-w-2xl text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3.5 py-1.5 rounded-full text-xs font-semibold text-blue-300 mb-4">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          Cập nhật tự động 24/7 từ OpenAI &bull; Google &bull; Anthropic
+        </div>
+        <h1 class="text-2xl sm:text-4xl lg:text-[2.65rem] font-extrabold tracking-tight leading-tight mb-4">
+          Cổng Thông Tin Công Nghệ AI, Sản Phẩm Đột Phá &amp; Thư Viện Prompt Thực Chiến
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+          Theo dõi tin tức mới nhất từ các tập đoàn AI hàng đầu thế giới, khám phá hệ sinh thái công cụ AI và sao chép hàng loạt mẫu câu lệnh tối ưu hiệu suất công việc.
+        </p>
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+          <a href="#tin-tuc-ai" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 transition-all">
+            Đọc tin AI mới nhất
+          </a>
+          <a href="#thu-vien-prompt" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-all">
+            Khám phá kho Prompt
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ thống kê nhanh -->
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto shrink-0">
+        <div class="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-3xl font-extrabold text-blue-400">3+</div>
+          <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Tập đoàn AI<br>hàng đầu</div>
+        </div>
+        <div class="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-3xl font-extrabold text-emerald-400">RSS</div>
+          <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Thu thập tin<br>tự động 24/7</div>
+        </div>
+        <div class="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-3xl font-extrabold text-amber-400">100%</div>
+          <div class="text-[11px] sm:text-xs text-slate-300 mt-1">Tài khoản AI<br>chính chủ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. TIN TỨC CÔNG NGHỆ AI TỰ ĐỘNG ================= -->
+  <section id="tin-tuc-ai" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
+    <!-- Tiêu đề khu vực & Trạng thái cập nhật tự động -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-2">
+          <span>Tin tức tự động (Auto RSS Feed)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Tin Tức Công Nghệ AI Mới Nhất</h2>
+        <p id="newsSyncStatus" class="text-xs sm:text-sm text-slate-500 mt-1 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Đang đồng bộ dữ liệu từ OpenAI, Google AI &amp; Anthropic...</span>
+        </p>
+      </div>
+
+      <!-- Bộ lọc hãng & Nút làm mới -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div id="newsFilterTabs" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <!-- Render bằng JS -->
+        </div>
+        <button id="refreshNewsBtn" onclick="fetchAINews(true)" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-blue-500 hover:text-blue-600 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs transition-all cursor-pointer">
+          <svg id="refreshIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          <span>Làm mới tin tự động</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bố cục chính: 1 Bài viết nổi bật (Trái - 7 cột) + Danh sách bài viết liên quan (Phải - 5 cột) -->
+    <div id="featuredNewsLayout" class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mb-10">
+      <!-- Render bằng JS -->
+    </div>
+
+    <!-- Lưới các bài viết tin tức khác -->
+    <div>
+      <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="w-1.5 h-5 bg-blue-600 rounded-full"></span>
+        <span>Bản Tin Công Nghệ Khác</span>
+      </h3>
+      <div id="moreNewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Render bằng JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. SẢN PHẨM AI NỔI BẬT (OPENAI, GOOGLE, ANTHROPIC) ================= -->
+  <section id="san-pham-ai" class="bg-white border-y border-slate-200/80 py-14 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Hệ sinh thái AI hàng đầu</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2.5">Sản Phẩm AI Nổi Bật</h2>
+          <p class="text-sm sm:text-base text-slate-500 mt-1">Khám phá các công cụ trí tuệ nhân tạo mạnh mẽ nhất từ OpenAI, Google và Anthropic</p>
+        </div>
+
+        <!-- Bộ lọc tập đoàn -->
+        <div id="productFilterTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <!-- Render bằng JS -->
+        </div>
+      </div>
+
+      <!-- Lưới sản phẩm -->
+      <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        <!-- Render bằng JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. THƯ VIỆN MẸO TẠO CÂU LỆNH (PROMPT AI) ================= -->
+  <section id="thu-vien-prompt" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">Tài nguyên miễn phí</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-3">Mẹo Tạo Câu Lệnh (Prompt) Sử Dụng AI</h2>
+      <p class="text-sm sm:text-base text-slate-500">
+        Bộ sưu tập công thức Prompt chuẩn cấu trúc giúp bạn khai thác tối đa sức mạnh của ChatGPT, Claude và Gemini. Sao chép 1 chạm và tùy biến ngay!
+      </p>
+    </div>
+
+    <!-- Thanh lọc chủ đề Prompt -->
+    <div id="promptFilterTabs" class="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-8">
+      <!-- Render bằng JS -->
+    </div>
+
+    <!-- Lưới thẻ Prompt -->
+    <div id="promptsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Render bằng JS -->
+    </div>
+  </section>
+
+  <!-- ================= 5. TƯ VẤN - HỖ TRỢ NÂNG CẤP TÀI KHOẢN AI CHÍNH CHỦ ================= -->
+  <section id="tu-van-nang-cap" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-800 to-slate-900 text-white p-6 sm:p-10 lg:p-12 shadow-2xl">
+      <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <!-- Cột trái: Nội dung dịch vụ nâng cấp chính chủ -->
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-300">
+            <span>Dịch vụ uy tín &bull; Bảo hành xuyên suốt quá trình sử dụng</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">
+            Tư Vấn &amp; Hỗ Trợ Nâng Cấp, Gia Hạn Tài Khoản AI Chính Chủ
+          </h2>
+
+          <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+            Nâng cấp trực tiếp trên chính email cá nhân hoặc doanh nghiệp của bạn. Không dùng chung tài khoản, bảo mật tuyệt đối dữ liệu lịch sử trò chuyện và hỗ trợ kỹ thuật 1-1.
+          </p>
+
+          <!-- Danh sách quyền lợi -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div class="flex items-start gap-2.5 bg-white/10 rounded-xl p-3.5">
+              <span class="text-emerald-400 font-black text-base">✓</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="block text-white">ChatGPT Plus / Team</strong>
+                <span class="text-blue-200">Mở khóa GPT-5, Sora, tạo ảnh &amp; phân tích file</span>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 bg-white/10 rounded-xl p-3.5">
+              <span class="text-emerald-400 font-black text-base">✓</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="block text-white">Claude Pro / Claude Code</strong>
+                <span class="text-blue-200">Tăng gấp 5 lần giới hạn, tối ưu viết lách &amp; lập trình</span>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 bg-white/10 rounded-xl p-3.5">
+              <span class="text-emerald-400 font-black text-base">✓</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="block text-white">Google One AI Premium</strong>
+                <span class="text-blue-200">Gemini Advanced, Veo, NotebookLM Plus + 2TB Drive</span>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 bg-white/10 rounded-xl p-3.5">
+              <span class="text-emerald-400 font-black text-base">✓</span>
+              <div class="text-xs sm:text-sm">
+                <strong class="block text-white">Midjourney / Perplexity / Cursor</strong>
+                <span class="text-blue-200">Gia hạn nhanh trong 5 phút, hỗ trợ xuất hóa đơn</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nút liên hệ trực tiếp -->
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="tel:0976070758" class="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm px-5 py-3 rounded-xl shadow-lg transition-all">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>Gọi ngay: 0976 070758</span>
+            </a>
+            <a href="https://zalo.me/0976070758" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 border border-white/25 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all">
+              <span>Chat Zalo Tư Vấn</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Cột phải: Form đăng ký tư vấn nhanh -->
+        <div class="lg:col-span-5 bg-white text-slate-800 rounded-2xl p-6 sm:p-7 shadow-xl">
+          <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mb-1">Đăng Ký Tư Vấn Nhanh</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mb-5">Để lại thông tin, chuyên viên sẽ liên hệ báo giá &amp; hỗ trợ nâng cấp ngay.</p>
+
+          <form id="consultForm" onsubmit="handleConsultSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Họ và tên <span class="text-rose-500">*</span></label>
+              <input type="text" id="consultName" required placeholder="Nhập họ tên của bạn" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Số điện thoại / Zalo <span class="text-rose-500">*</span></label>
+              <input type="tel" id="consultPhone" required placeholder="VD: 0976 070758" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Gói AI quan tâm</label>
+              <select id="consultPackage" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-blue-600 outline-none">
+                <option value="ChatGPT Plus / GPT-5 (OpenAI)">ChatGPT Plus / GPT-5 (OpenAI)</option>
+                <option value="Claude Pro / Claude Code (Anthropic)">Claude Pro / Claude Code (Anthropic)</option>
+                <option value="Google One AI Premium / Gemini Advanced">Google One AI Premium / Gemini Advanced</option>
+                <option value="Combo Tài khoản AI Doanh nghiệp">Combo Tài khoản AI Doanh nghiệp</option>
+                <option value="Tư vấn giải pháp AI khác">Tư vấn giải pháp AI khác</option>
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold text-sm shadow-md shadow-blue-600/25 transition-all cursor-pointer">
+              Gửi yêu cầu tư vấn nâng cấp
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER CUỐI TRANG ================= -->
+  <footer class="bg-slate-950 text-slate-400 border-t border-slate-800 pt-14 pb-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800/80">
+      <!-- Cột 1: Thương hiệu -->
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-base">AI</div>
+          <span class="text-xl font-extrabold text-white tracking-tight">AI Hub <span class="text-blue-500">VN</span></span>
+        </div>
+        <p class="text-sm text-slate-400 max-w-md leading-relaxed mb-4">
+          Chuyên trang cập nhật tin tức công nghệ trí tuệ nhân tạo tự động từ OpenAI, Google, Anthropic; chia sẻ thư viện Prompt thực chiến và cung cấp dịch vụ nâng cấp, gia hạn tài khoản AI chính chủ uy tín.
+        </p>
+      </div>
+
+      <!-- Cột 2: Danh mục nhanh -->
+      <div>
+        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Chuyên Mục</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#tin-tuc-ai" class="hover:text-blue-400 transition-colors">Tin tức AI tự động</a></li>
+          <li><a href="#san-pham-ai" class="hover:text-blue-400 transition-colors">Sản phẩm AI nổi bật</a></li>
+          <li><a href="#thu-vien-prompt" class="hover:text-blue-400 transition-colors">Thư viện câu lệnh Prompt</a></li>
+          <li><a href="#tu-van-nang-cap" class="hover:text-blue-400 transition-colors">Nâng cấp tài khoản chính chủ</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 3: Thông tin liên hệ trực tiếp -->
+      <div>
+        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Liên Hệ Hỗ Trợ 24/7</h4>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <span class="block text-xs text-slate-500">Hotline / Zalo hỗ trợ:</span>
+            <a href="tel:0976070758" class="text-white font-bold text-base hover:text-blue-400 transition-colors">0976 070758</a>
+          </li>
+          <li>
+            <span class="block text-xs text-slate-500">Nhắn tin trực tiếp qua Zalo:</span>
+            <a href="https://zalo.me/0976070758" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline font-medium">zalo.me/0976070758</a>
+          </li>
+          <li>
+            <span class="block text-xs text-slate-500">Email hỗ trợ khách hàng:</span>
+            <a href="mailto:huynhnv.pro@gmail.com" class="text-slate-200 hover:text-blue-400 transition-colors font-medium">huynhnv.pro@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <p>&copy; 2026 AI Hub VN. Tất cả quyền được bảo lưu.</p>
+      <p>Hỗ trợ nâng cấp &amp; gia hạn tài khoản AI chính chủ: <a href="tel:0976070758" class="text-slate-300 font-semibold">0976 070758</a></p>
+    </div>
+  </footer>
+
+  <!-- ================= NÚT NỔI (FLOATING ACTION BUTTONS) ZALO & GỌI ĐIỆN ================= -->
+  <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
+    <!-- Nút Zalo -->
+    <a href="https://zalo.me/0976070758" target="_blank" rel="noopener noreferrer" title="Chat Zalo: 0976 070758" class="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-sky-500 hover:bg-sky-600 text-white font-black text-xs flex items-center justify-center shadow-lg shadow-sky-500/35 hover:scale-105 transition-transform">
+      Zalo
+    </a>
+    <!-- Nút Gọi điện -->
+    <a href="tel:0976070758" title="Gọi ngay: 0976 070758" class="w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-lg shadow-blue-600/40 pulse-ring hover:scale-105 transition-transform">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+    </a>
+  </div>
+
+  <!-- ================= MODAL 1: ĐỌC CHI TIẾT BÀI VIẾT TIN TỨC + BÀI VIẾT LIÊN QUAN ================= -->
+  <div id="newsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-sm p-3 sm:p-5" onclick="if(event.target===this) closeModal('newsModal')">
+    <div id="newsModalBody" class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 shadow-2xl animate-modal">
+      <!-- Render bằng JS -->
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: CHI TIẾT SẢN PHẨM AI & SO SÁNH GÓI ================= -->
+  <div id="productModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-sm p-3 sm:p-5" onclick="if(event.target===this) closeModal('productModal')">
+    <div id="productModalBody" class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 shadow-2xl animate-modal">
+      <!-- Render bằng JS -->
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: THÔNG BÁO XÁC NHẬN (THAY THẾ ALERT) ================= -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4" onclick="if(event.target===this) closeModal('confirmModal')">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl animate-modal">
+      <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h4 class="text-xl font-extrabold text-slate-900 mb-2">Đã Ghi Nhận Yêu Cầu!</h4>
+      <p id="confirmModalText" class="text-sm text-slate-600 leading-relaxed mb-5"></p>
+      <div class="flex flex-col sm:flex-row gap-2.5">
+        <a href="https://zalo.me/0976070758" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm">
+          Chat Zalo ngay
+        </a>
+        <button onclick="closeModal('confirmModal')" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 cursor-pointer">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT XỬ LÝ TOÀN BỘ DỮ LIỆU & TƯƠNG TÁC ================= -->
+  <script>
+    // =========================================================================
+    // 1. DỮ LIỆU TIN TỨC DỰ PHÒNG (FALLBACK 2026) KHI RSS API BỊ CHẶN HOẶC OFFLINE
+    // =========================================================================
+    const FALLBACK_NEWS = [
+      {
+        id: "news-1",
+        company: "OpenAI",
+        badgeColor: "bg-emerald-600",
+        title: "OpenAI ra mắt thế hệ tác tử tự chủ GPT-5 Operator: Tự điều khiển trình duyệt và xử lý quy trình doanh nghiệp",
+        summary: "Bước tiến mới giúp mô hình AI không chỉ trả lời văn bản mà còn trực tiếp thao tác trên phần mềm kế toán, CRM và lập kế hoạch đa bước với độ chính xác vượt trội.",
+        content: [
+          "OpenAI vừa chính thức giới thiệu bản nâng cấp lớn cho dòng mô hình suy luận kết hợp tác tử tự chủ (Autonomous Agent), cho phép người dùng giao phó các chuỗi nhiệm vụ phức tạp kéo dài nhiều giờ đồng hồ.",
+          "Thay vì chỉ dừng lại ở việc gợi ý câu trả lời, hệ thống mới có khả năng mở trình duyệt trong môi trường sandbox an toàn, thu thập bảng giá từ nhiều nhà cung cấp, đối chiếu dữ liệu Excel và tự động soạn thảo báo cáo hoàn chỉnh.",
+          "Đối với người dùng ChatGPT Plus và Enterprise, tính năng này được tích hợp trực tiếp vào thanh công cụ với cơ chế xin phép xác nhận trước mọi thao tác quan trọng như gửi email hay thanh toán."
+        ],
+        date: "15/11/2026",
+        readTime: "4 phút đọc",
+        source: "OpenAI Newsroom",
+        url: "https://openai.com/news/",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: "news-2",
+        company: "Google",
+        badgeColor: "bg-blue-600",
+        title: "Google nâng cấp Gemini 2.5 Ultra & NotebookLM: Phân tích video dài 3 giờ và tạo podcast thảo luận tiếng Việt",
+        summary: "Cửa sổ ngữ cảnh lên tới 2 triệu token kết hợp khả năng hiểu sâu âm thanh, hình ảnh giúp Google Workspace trở thành trợ lý nghiên cứu toàn diện cho học thuật và doanh nghiệp.",
+        content: [
+          "Google DeepMind tiếp tục mở rộng giới hạn xử lý đa phương thức khi công bố bản cập nhật lớn cho Gemini Advanced và ứng dụng ghi chú thông minh NotebookLM.",
+          "Người dùng hiện có thể tải lên hàng chục tài liệu PDF, file ghi âm cuộc họp hoặc video bài giảng dài tới 3 tiếng để hệ thống tự động trích xuất luận điểm, lập sơ đồ tư duy và tạo bản tóm tắt dạng đối thoại hai người cực kỳ tự nhiên.",
+          "Bên cạnh đó, mô hình tạo video Veo thế hệ mới cũng được tích hợp sâu hơn cho người dùng gói Google One AI Premium, hỗ trợ xuất video 4K giữ nguyên đồng nhất nhân vật xuyên suốt nhiều phân cảnh."
+        ],
+        date: "14/11/2026",
+        readTime: "3 phút đọc",
+        source: "Google AI Blog",
+        url: "https://blog.google/technology/ai/",
+        image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: "news-3",
+        company: "Anthropic",
+        badgeColor: "bg-amber-600",
+        title: "Anthropic công bố Claude 4 Sonnet & Claude Code: Thiết lập kỷ lục mới về kỹ thuật phần mềm tự động",
+        summary: "Khả năng đọc hiểu toàn bộ kho mã nguồn lớn, tự viết unit test và sửa lỗi kiến trúc giúp Claude tiếp tục giữ vững ngôi vương trong cộng đồng lập trình viên.",
+        content: [
+          "Anthropic vừa tạo nên làn sóng thảo luận sôi nổi trong giới công nghệ khi ra mắt thế hệ mô hình Claude mới với khả năng suy luận sâu (Extended Thinking) được tối ưu hóa tốc độ phản hồi nhanh gấp đôi.",
+          "Điểm sáng lớn nhất là công cụ dòng lệnh Claude Code cho phép các kỹ sư phần mềm giao việc tái cấu trúc (refactor) hàng chục file mã nguồn cùng lúc, tự động chạy kiểm thử và tạo Pull Request chuẩn chỉnh trên GitHub.",
+          "Ngoài lập trình, phong cách hành văn tự nhiên, giàu sắc thái và tuân thủ nghiêm ngặt ngữ cảnh của Claude cũng khiến nó trở thành lựa chọn hàng đầu cho các đội ngũ sáng tạo nội dung chuyên sâu."
+        ],
+        date: "13/11/2026",
+        readTime: "5 phút đọc",
+        source: "Anthropic Research",
+        url: "https://www.anthropic.com/news",
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: "news-4",
+        company: "OpenAI",
+        badgeColor: "bg-emerald-600",
+        title: "Sora Studio chính thức hỗ trợ chỉnh sửa từng khung hình và đồng bộ lời thoại lip-sync đa ngôn ngữ",
+        summary: "Các nhà làm phim độc lập và đội ngũ marketing giờ đây có thể đạo diễn góc máy, ánh sáng và chuyển động nhân vật chính xác như phần mềm dựng phim chuyên nghiệp.",
+        content: [
+          "OpenAI tiếp tục hoàn thiện hệ sinh thái sáng tạo đa phương tiện bằng việc bổ sung tính năng Storyboard Timeline vào công cụ tạo video Sora.",
+          "Người dùng có thể khóa cố định khuôn mặt nhân vật, thay đổi bối cảnh từ ban ngày sang ban đêm hoặc chèn lời thoại tiếng Việt để AI tự động khớp khẩu hình miệng một cách mượt mà."
+        ],
+        date: "11/11/2026",
+        readTime: "3 phút đọc",
+        source: "OpenAI Product",
+        url: "https://openai.com/news/",
+        image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: "news-5",
+        company: "Google",
+        badgeColor: "bg-blue-600",
+        title: "Google tích hợp trợ lý AI chuyên sâu vào Gmail, Docs và Sheets: Tự động hóa báo cáo tài chính chỉ bằng 1 câu lệnh",
+        summary: "Tính năng phân tích bảng tính thông minh giúp tự động phát hiện bất thường doanh thu và vẽ biểu đồ trực quan mà không cần nhớ công thức phức tạp.",
+        content: [
+          "Bản cập nhật mới trên Google Workspace mang lại trải nghiệm liền mạch giữa các ứng dụng văn phòng quen thuộc.",
+          "Trong Google Sheets, người dùng chỉ cần mô tả mục tiêu phân tích bằng tiếng Việt tự nhiên, Gemini sẽ tự động làm sạch dữ liệu, tạo bảng Pivot Table và xuất slide thuyết trình sang Google Slides."
+        ],
+        date: "10/11/2026",
+        readTime: "4 phút đọc",
+        source: "Google Workspace Updates",
+        url: "https://blog.google/technology/ai/",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: "news-6",
+        company: "Anthropic",
+        badgeColor: "bg-amber-600",
+        title: "Chuẩn kết nối mở MCP (Model Context Protocol) của Anthropic trở thành tiêu chuẩn chung cho hệ sinh thái AI",
+        summary: "Hàng nghìn công cụ từ Slack, Notion, PostgreSQL đến Google Drive nay có thể kết nối trực tiếp với mô hình AI thông qua giao thức thống nhất.",
+        content: [
+          "Model Context Protocol (MCP) do Anthropic khởi xướng đang nhanh chóng được cộng đồng công nghệ đón nhận như một cổng giao tiếp chuẩn hóa giữa mô hình ngôn ngữ lớn và nguồn dữ liệu nội bộ.",
+          "Nhờ MCP, doanh nghiệp có thể kết nối Claude Desktop trực tiếp với cơ sở dữ liệu nội bộ để truy vấn thông tin khách hàng theo thời gian thực mà vẫn đảm bảo quyền kiểm soát truy cập chặt chẽ."
+        ],
+        date: "08/11/2026",
+        readTime: "4 phút đọc",
+        source: "Anthropic Engineering",
+        url: "https://www.anthropic.com/news",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+      }
+    ];
+
+    let allNews = [...FALLBACK_NEWS];
+    let currentNewsFilter = "Tất cả";
+
+    // =========================================================================
+    // 2. DỮ LIỆU SẢN PHẨM AI NỔI BẬT (OPENAI, GOOGLE, ANTHROPIC)
+    // =========================================================================
+    const AI_PRODUCTS = [
+      {
+        id: "prod-gpt",
+        company: "OpenAI",
+        badgeColor: "bg-emerald-600",
+        name: "ChatGPT Plus / GPT-5 & Sora",
+        tagline: "Trợ lý AI toàn năng số 1 thế giới cho công việc & sáng tạo",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=700&q=80",
+        highlights: [
+          "Truy cập không giới hạn mô hình GPT-5 & suy luận sâu",
+          "Tạo video nghệ thuật với Sora & tạo ảnh chất lượng cao",
+          "Phân tích file Excel, PDF, lập trình & tìm kiếm web thời gian thực"
+        ],
+        targetAudience: "Marketer, chủ doanh nghiệp, lập trình viên, giảng viên và nhân viên văn phòng cần công cụ đa năng.",
+        comparison: [
+          { feature: "Mô hình ngôn ngữ", free: "Giới hạn lượt dùng", pro: "GPT-5 & o3 ưu tiên tốc độ cao" },
+          { feature: "Tạo Video Sora & Ảnh", free: "Không hỗ trợ / Rất hạn chế", pro: "Mở khóa đầy đủ tính năng" },
+          { feature: "Phân tích dữ liệu & File", free: "Giới hạn dung lượng", pro: "Xử lý file lớn & vẽ biểu đồ tự động" }
+        ],
+        packageLabel: "ChatGPT Plus / GPT-5 (OpenAI)"
+      },
+      {
+        id: "prod-gemini",
+        company: "Google",
+        badgeColor: "bg-blue-600",
+        name: "Gemini Advanced / NotebookLM / Veo",
+        tagline: "Sức mạnh AI tích hợp sâu vào hệ sinh thái Google Workspace",
+        image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=700&q=80",
+        highlights: [
+          "Cửa sổ ngữ cảnh khổng lồ 2 triệu token đọc hàng trăm tài liệu",
+          "Tích hợp trực tiếp trong Gmail, Google Docs, Sheets, Drive",
+          "Tặng kèm 2TB dung lượng lưu trữ Google One & NotebookLM Plus"
+        ],
+        targetAudience: "Nhà nghiên cứu, sinh viên, người làm nội dung và đội nhóm sử dụng hệ sinh thái Google hàng ngày.",
+        comparison: [
+          { feature: "Bộ nhớ ngữ cảnh", free: "32K token tiêu chuẩn", pro: "2 Triệu token (đọc sách 1.500 trang)" },
+          { feature: "Tích hợp Gmail & Docs", free: "Không có", pro: "Soạn thảo & tóm tắt trực tiếp" },
+          { feature: "Lưu trữ đám mây", free: "15GB mặc định", pro: "2TB Google Drive + NotebookLM Plus" }
+        ],
+        packageLabel: "Google One AI Premium / Gemini Advanced"
+      },
+      {
+        id: "prod-claude",
+        company: "Anthropic",
+        badgeColor: "bg-amber-600",
+        name: "Claude Pro / Claude Code",
+        tagline: "Bậc thầy viết lách tự nhiên, phân tích sâu & lập trình chuyên nghiệp",
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=700&q=80",
+        highlights: [
+          "Tăng gấp 5 lần giới hạn tin nhắn so với bản miễn phí",
+          "Văn phong tiếng Việt mượt mà, sâu sắc, không bị cứng nhắc",
+          "Mở khóa Claude Code & tính năng Projects quản lý tri thức riêng"
+        ],
+        targetAudience: "Lập trình viên, biên tập viên, chuyên gia phân tích chiến lược và nhà sáng tạo nội dung chuyên sâu.",
+        comparison: [
+          { feature: "Giới hạn sử dụng", free: "Nhanh hết lượt vào giờ cao điểm", pro: "Gấp 5 lần dung lượng & ưu tiên truy cập" },
+          { feature: "Hỗ trợ Lập trình", free: "Chỉ chat cơ bản", pro: "Claude Code + Artifacts trực quan" },
+          { feature: "Quản lý dự án (Projects)", free: "Không hỗ trợ", pro: "Lưu trữ kho tài liệu riêng cho từng dự án" }
+        ],
+        packageLabel: "Claude Pro / Claude Code (Anthropic)"
+      }
+    ];
+
+    let currentProductFilter = "Tất cả";
+
+    // =========================================================================
+    // 3. DỮ LIỆU THƯ VIỆN MẸO & CÂU LỆNH (PROMPT AI)
+    // =========================================================================
+    const PROMPT_LIBRARY = [
+      {
+        id: "pm-1",
+        category: "Viết Content & SEO",
+        tool: "ChatGPT / Claude",
+        toolBadge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        title: "Viết bài Blog chuẩn SEO chuyên sâu theo cấu trúc E-E-A-T",
+        promptText: `Hãy đóng vai chuyên gia Content SEO với 10 năm kinh nghiệm trong lĩnh vực [NHẬP NGÀNH HÀNG]. Hãy lập dàn ý và viết một bài viết hoàn chỉnh khoảng 1.500 từ cho từ khóa chính: "[NHẬP TỪ KHÓA]".\n\nYêu cầu bắt buộc:\n1. Tiêu đề H1 hấp dẫn, chứa từ khóa chính và kích thích tỷ lệ nhấp (CTR).\n2. Mở bài theo công thức PAS (Vấn đề - Khuấy động - Giải pháp) trong 120 từ.\n3. Phân bổ thẻ H2, H3 logic, lồng ghép ví dụ thực tế tại Việt Nam.\n4. Kết bài kèm phần Câu hỏi thường gặp (FAQ) chuẩn Schema và lời kêu gọi hành động (CTA) tự nhiên.`,
+        tip: "Mẹo tùy biến: Thay thế phần trong ngoặc vuông [ ] và đính kèm thêm 2-3 gạch đầu dòng về sản phẩm của bạn để bài viết mang màu sắc riêng, không bị trùng lặp."
+      },
+      {
+        id: "pm-2",
+        category: "Lập trình & Debug",
+        tool: "Claude Code / GPT-5",
+        toolBadge: "bg-amber-50 text-amber-700 border-amber-200",
+        title: "Phân tích nguyên nhân gốc rễ & tối ưu hiệu năng mã nguồn (Debug)",
+        promptText: `Tôi đang gặp lỗi sau trong dự án sử dụng [NGÔN NGỮ / FRAMEWORK]:\n"[DÁN THÔNG BÁO LỖI TẠI ĐÂY]"\n\nĐoạn mã liên quan:\n\`\`\`\n[DÁN ĐOẠN CODE CỦA BẠN]\n\`\`\`\n\nHãy thực hiện lần lượt:\n1. Giải thích nguyên nhân gốc rễ gây ra lỗi một cách ngắn gọn.\n2. Cung cấp đoạn mã đã sửa hoàn chỉnh kèm chú thích rõ ràng ở dòng thay đổi.\n3. Đề xuất 2 cách cải thiện hiệu năng hoặc bảo mật (edge cases) cho hàm này.`,
+        tip: "Mẹo tùy biến: Luôn cung cấp cả thông báo lỗi (stack trace) lẫn phiên bản thư viện đang dùng để AI đưa ra giải pháp chính xác ngay lần đầu."
+      },
+      {
+        id: "pm-3",
+        category: "Phân tích dữ liệu",
+        tool: "Gemini Advanced / ChatGPT",
+        toolBadge: "bg-blue-50 text-blue-700 border-blue-200",
+        title: "Biến dữ liệu bán hàng thô thành báo cáo chiến lược & kế hoạch hành động",
+        promptText: `Bạn là Giám đốc Phân tích Dữ liệu (Head of BI). Dựa trên bảng dữ liệu kinh doanh đính kèm của [TÊN DOANH NGHIỆP / SHOP], hãy phân tích và trình bày báo cáo gồm 4 phần:\n1. Top 3 xu hướng tăng trưởng hoặc sụt giảm đáng chú ý nhất.\n2. Phân tích nhóm khách hàng/sản phẩm mang lại biên lợi nhuận cao nhất (quy luật 80/20).\n3. Cảnh báo các điểm nghẽn hoặc chi phí đang bị lãng phí.\n4. Đề xuất 5 hành động cụ thể có thể triển khai ngay trong 30 ngày tới để tăng doanh thu thêm 20%.`,
+        tip: "Mẹo tùy biến: Tải trực tiếp file Excel (.xlsx) hoặc CSV lên khung chat cùng câu lệnh này để AI tự động tính toán và vẽ biểu đồ."
+      },
+      {
+        id: "pm-4",
+        category: "Thiết kế ảnh/Video",
+        tool: "Sora / Veo / Midjourney",
+        toolBadge: "bg-purple-50 text-purple-700 border-purple-200",
+        title: "Tạo kịch bản cảnh quay Video quảng cáo sản phẩm chuẩn điện ảnh",
+        promptText: `Cinematic commercial product video of [TÊN SẢN PHẨM & MÀU SẮC] placed on a sleek minimalist dark marble surface, soft golden hour rim lighting, subtle floating water droplets in slow motion, shallow depth of field, shot on ARRI Alexa Mini LF, 35mm macro lens, smooth camera push-in movement, hyper-realistic textures, 4K resolution, 60fps.`,
+        tip: "Mẹo tùy biến: Giữ nguyên các từ khóa kỹ thuật ánh sáng (golden hour rim lighting) và góc máy (smooth camera push-in), chỉ cần thay mô tả chủ thể ở đầu câu."
+      },
+      {
+        id: "pm-5",
+        category: "Học tập & Nghiên cứu",
+        tool: "NotebookLM / Gemini",
+        toolBadge: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        title: "Tóm tắt tài liệu học thuật & tạo bộ câu hỏi trắc nghiệm ôn tập",
+        promptText: `Hãy đóng vai gia sư xuất sắc. Dựa trên tài liệu tôi cung cấp về chủ đề [TÊN CHỦ ĐỀ]:\n1. Tóm tắt 5 ý cốt lõi nhất theo phương pháp Feynman (giải thích đơn giản như cho người mới bắt đầu).\n2. Lập bảng so sánh các khái niệm dễ gây nhầm lẫn trong tài liệu.\n3. Tạo 10 câu hỏi trắc nghiệm (4 đáp án A, B, C, D) từ cơ bản đến nâng cao, kèm đáp án đúng và giải thích chi tiết ở cuối bài.`,
+        tip: "Mẹo tùy biến: Rất hữu ích khi dùng cùng Google NotebookLM để ôn thi chứng chỉ hoặc đọc nhanh báo cáo nghiên cứu thị trường dài hàng trăm trang."
+      },
+      {
+        id: "pm-6",
+        category: "Viết Content & SEO",
+        tool: "Claude / ChatGPT",
+        toolBadge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        title: "Viết kịch bản Video ngắn (TikTok / Reels / Shorts) giữ chân người xem 3 giây đầu",
+        promptText: `Viết kịch bản video ngắn 45 giây cho kênh [LĨNH VỰC CỦA BẠN] về chủ đề: "[CHỦ ĐỀ VIDEO]".\n\nChia thành bảng 3 cột: Thời lượng | Hình ảnh & Hành động | Lời thoại (Voice-over).\nYêu cầu:\n- 0-3s đầu: Tạo câu Hook gây tò mò hoặc đánh trúng nỗi đau của người xem.\n- 3-35s: Đưa ra 3 mẹo thực tế, ngắn gọn, dễ áp dụng ngay.\n- 35-45s: Lời kêu gọi bình luận hoặc lưu video tự nhiên, không mang cảm giác bán hàng gượng ép.`,
+        tip: "Mẹo tùy biến: Yêu cầu AI viết thêm 3 phương án câu mở đầu (Hook) khác nhau để bạn quay thử nghiệm A/B Testing."
+      }
+    ];
+
+    let currentPromptFilter = "Tất cả";
+
+    // =========================================================================
+    // 4. THU THẬP TIN TỨC AI TỰ ĐỘNG QUA RSS-TO-JSON API + FALLBACK THÔNG MINH
+    // =========================================================================
+    async function fetchAINews(isManualRefresh = false) {
+      const statusEl = document.getElementById("newsSyncStatus");
+      const refreshIcon = document.getElementById("refreshIcon");
+
+      if (refreshIcon) refreshIcon.classList.add("animate-spin");
+      statusEl.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+        <span>Đang quét nguồn tin tự động từ OpenAI, Google AI &amp; Anthropic...</span>
+      `;
+
+      // Các nguồn RSS công nghệ AI uy tín chuyển đổi qua rss2json.com
+      const rssFeeds = [
+        { company: "OpenAI", badgeColor: "bg-emerald-600", url: "https://openai.com/news/rss.xml", fallbackImg: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80" },
+        { company: "Google", badgeColor: "bg-blue-600", url: "https://blog.google/technology/ai/rss/", fallbackImg: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" },
+        { company: "Anthropic", badgeColor: "bg-amber-600", url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", fallbackImg: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" }
+      ];
+
+      try {
+        const requests = rssFeeds.map(async (feed) => {
+          const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+          const res = await fetch(apiUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (!res.ok) throw new Error("RSS fetch failed");
+          const data = await res.json();
+
+          if (data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
+            return data.items.slice(0, 2).map((item, idx) => {
+              // Làm sạch thẻ HTML từ mô tả RSS
+              const tmpDiv = document.createElement("div");
+              tmpDiv.innerHTML = item.description || item.content || "";
+              const cleanText = (tmpDiv.textContent || tmpDiv.innerText || "").trim();
+              const shortDesc = cleanText.length > 180 ? cleanText.slice(0, 180) + "..." : (cleanText || "Cập nhật công nghệ trí tuệ nhân tạo mới nhất từ " + feed.company);
+
+              // Tự động nhận diện hãng nếu bài từ nguồn tổng hợp
+              let detectedCompany = feed.company;
+              let badgeColor = feed.badgeColor;
+              const lowerTitle = item.title.toLowerCase();
+              if (lowerTitle.includes("anthropic") || lowerTitle.includes("claude")) {
+                detectedCompany = "Anthropic";
+                badgeColor = "bg-amber-600";
+              } else if (lowerTitle.includes("google") || lowerTitle.includes("gemini")) {
+                detectedCompany = "Google";
+                badgeColor = "bg-blue-600";
+              } else if (lowerTitle.includes("openai") || lowerTitle.includes("chatgpt") || lowerTitle.includes("gpt")) {
+                detectedCompany = "OpenAI";
+                badgeColor = "bg-emerald-600";
+              }
+
+              const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString("vi-VN") : "Hôm nay";
+
+              return {
+                id: `rss-${feed.company}-${idx}-${Date.now()}`,
+                company: detectedCompany,
+                badgeColor: badgeColor,
+                title: item.title,
+                summary: shortDesc,
+                content: [
+                  cleanText || shortDesc,
+                  `Bài viết được hệ thống AI Hub VN thu thập tự động từ kênh thông tin chính thức của ${detectedCompany}. Bạn có thể bấm nút đọc bài gốc bên dưới để xem toàn bộ thông số kỹ thuật chi tiết.`
+                ],
+                date: pubDate,
+                readTime: "3 phút đọc",
+                source: data.feed?.title || `${detectedCompany} Official Feed`,
+                url: item.link,
+                image: item.thumbnail || item.enclosure?.link || feed.fallbackImg
+              };
+            });
+          }
+          return [];
+        });
+
+        const results = await Promise.allSettled(requests);
+        const liveArticles = results
+          .filter(r => r.status === "fulfilled" && r.value.length > 0)
+          .flatMap(r => r.value);
+
+        const nowTime = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+
+        if (liveArticles.length >= 2) {
+          // Kết hợp tin tự động mới nhất với kho tin chuyên sâu tiếng Việt
+          allNews = [...liveArticles, ...FALLBACK_NEWS];
+          statusEl.innerHTML = `
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Đã đồng bộ tự động <strong>${liveArticles.length} tin mới</strong> lúc ${nowTime} (Kết hợp bản tin tiếng Việt chọn lọc)</span>
+          `;
+        } else {
+          allNews = [...FALLBACK_NEWS];
+          statusEl.innerHTML = `
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span>Hiển thị bản tin AI chọn lọc mới nhất (Cập nhật lúc ${nowTime})</span>
+          `;
+        }
+      } catch (err) {
+        const nowTime = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+        allNews = [...FALLBACK_NEWS];
+        statusEl.innerHTML = `
+          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+          <span>Hiển thị bản tin AI tổng hợp mới nhất (Cập nhật lúc ${nowTime})</span>
+        `;
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove("animate-spin");
+        renderNewsSection();
+      }
+    }
+
+    // Render bộ lọc & bố cục Tin tức AI (1 Bài nổi bật + Danh sách bài liên quan + Lưới tin khác)
+    function renderNewsSection() {
+      const companies = ["Tất cả", "OpenAI", "Google", "Anthropic"];
+      const tabsEl = document.getElementById("newsFilterTabs");
+
+      tabsEl.innerHTML = companies.map(comp => {
+        const active = comp === currentNewsFilter;
+        const cls = active
+          ? "bg-blue-600 text-white border-blue-600 shadow-xs"
+          : "bg-white text-slate-700 border-slate-200 hover:border-blue-500 hover:text-blue-600";
+        return `<button onclick="setNewsFilter('${comp}')" class="whitespace-nowrap px-3.5 py-2 rounded-xl border text-xs sm:text-sm font-semibold transition-all cursor-pointer ${cls}">${comp}</button>`;
+      }).join("");
+
+      const filtered = currentNewsFilter === "Tất cả"
+        ? allNews
+        : allNews.filter(n => n.company === currentNewsFilter);
+
+      const featuredContainer = document.getElementById("featuredNewsLayout");
+      const moreContainer = document.getElementById("moreNewsGrid");
+
+      if (filtered.length === 0) {
+        featuredContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 py-8">Chưa có bài viết cho mục này.</p>`;
+        moreContainer.innerHTML = "";
+        return;
+      }
+
+      const heroArticle = filtered[0];
+      const relatedSidebar = filtered.slice(1, 4);
+      const remainingArticles = filtered.slice(4);
+
+      // 1. Bài viết nổi bật (Trái - 7 cột) + 2. Bài viết liên quan (Phải - 5 cột)
+      featuredContainer.innerHTML = `
+        <!-- Bài viết nổi bật (Featured Hero Article) -->
+        <article onclick="openNewsModal('${heroArticle.id}')" class="lg:col-span-7 group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col">
+          <div class="relative aspect-[16/9] overflow-hidden bg-slate-100">
+            <span class="absolute top-3.5 left-3.5 z-10 ${heroArticle.badgeColor} text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-lg shadow">
+              ${heroArticle.company} &bull; Nổi bật
+            </span>
+            <img src="${heroArticle.image}" alt="${heroArticle.title}" onerror="this.src='https://placehold.co/900x500/1e293b/ffffff?text=AI+Hub+VN'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-5 sm:p-7 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 text-xs text-slate-500 font-medium mb-2.5">
+                <span>${heroArticle.source}</span>
+                <span>&bull;</span>
+                <span>${heroArticle.date}</span>
+                <span>&bull;</span>
+                <span>${heroArticle.readTime}</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug mb-3 group-hover:text-blue-600 transition-colors">
+                ${heroArticle.title}
+              </h3>
+              <p class="text-sm sm:text-base text-slate-600 line-clamp-3 leading-relaxed">
+                ${heroArticle.summary}
+              </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-blue-600 font-bold text-sm inline-flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                <span>Đọc chi tiết bài viết</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Cột phải: Danh sách bài viết liên quan (Related Articles) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-100">
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              <span>Bài Viết Liên Quan</span>
+            </h3>
+            <span class="text-xs font-semibold text-slate-400">Chọn để đọc</span>
+          </div>
+
+          <div class="space-y-4 flex-1 flex flex-col justify-between">
+            ${relatedSidebar.map(item => `
+              <article onclick="openNewsModal('${item.id}')" class="group flex gap-3.5 items-start p-2.5 -mx-2.5 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                <img src="${item.image}" alt="${item.title}" onerror="this.src='https://placehold.co/240x180/e2e8f0/475569?text=AI+News'" class="w-24 h-20 sm:w-28 sm:h-22 rounded-xl object-cover shrink-0 bg-slate-100">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="${item.badgeColor} text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded">${item.company}</span>
+                    <span class="text-[11px] text-slate-400">${item.date}</span>
+                  </div>
+                  <h4 class="text-sm font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    ${item.title}
+                  </h4>
+                  <p class="text-xs text-slate-500 line-clamp-1 mt-1">${item.summary}</p>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        </div>
+      `;
+
+      // 3. Lưới các bản tin khác bên dưới
+      if (remainingArticles.length > 0) {
+        moreContainer.innerHTML = remainingArticles.map(item => `
+          <article onclick="openNewsModal('${item.id}')" class="group bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col">
+            <div class="relative aspect-[16/9] overflow-hidden bg-slate-100">
+              <span class="absolute top-3 left-3 ${item.badgeColor} text-white text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-md shadow">
+                ${item.company}
+              </span>
+              <img src="${item.image}" alt="${item.title}" onerror="this.src='https://placehold.co/600x340/e2e8f0/475569?text=AI+News'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-xs text-slate-400 mb-1.5">${item.source} &bull; ${item.date}</div>
+                <h4 class="text-base font-bold text-slate-900 leading-snug line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors">
+                  ${item.title}
+                </h4>
+                <p class="text-xs sm:text-sm text-slate-500 line-clamp-2">${item.summary}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-bold text-blue-600">
+                Xem chi tiết &rarr;
+              </div>
+            </div>
+          </article>
+        `).join("");
+      } else {
+        moreContainer.innerHTML = `
+          <div class="col-span-full text-center py-6 bg-white rounded-2xl border border-slate-200 text-sm text-slate-500">
+            Đã hiển thị toàn bộ bài viết mới nhất của <strong>${currentNewsFilter}</strong>.
+          </div>
+        `;
+      }
+    }
+
+    function setNewsFilter(comp) {
+      currentNewsFilter = comp;
+      renderNewsSection();
+    }
+
+    // Mở Modal đọc chi tiết bài viết + gợi ý bài viết liên quan ngay bên dưới
+    function openNewsModal(articleId) {
+      const article = allNews.find(a => a.id === articleId);
+      if (!article) return;
+
+      // Tìm các bài viết liên quan (cùng hãng hoặc các bài nổi bật khác)
+      const related = allNews
+        .filter(a => a.id !== article.id)
+        .sort((a, b) => (a.company === article.company ? -1 : 1))
+        .slice(0, 3);
+
+      document.getElementById("newsModalBody").innerHTML = `
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="${article.badgeColor} text-white text-xs font-bold uppercase px-2.5 py-1 rounded-lg">${article.company}</span>
+            <span class="text-xs text-slate-500 font-medium">${article.source} &bull; ${article.date}</span>
+          </div>
+          <button onclick="closeModal('newsModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug mb-4">
+          ${article.title}
+        </h2>
+
+        <img src="${article.image}" alt="${article.title}" onerror="this.src='https://placehold.co/900x480/1e293b/ffffff?text=AI+Hub+VN'" class="w-full h-52 sm:h-72 object-cover rounded-2xl mb-5 bg-slate-100">
+
+        <div class="space-y-3.5 text-sm sm:text-base text-slate-700 leading-relaxed mb-6">
+          ${article.content.map(para => `<p>${para}</p>`).join("")}
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100 mb-7">
+          <div class="text-xs sm:text-sm text-slate-700">
+            <strong>Bạn muốn trải nghiệm công cụ từ ${article.company}?</strong>
+            <span class="block text-slate-500">Hỗ trợ nâng cấp tài khoản chính chủ bảo hành trọn đời.</span>
+          </div>
+          <a href="#tu-van-nang-cap" onclick="closeModal('newsModal')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shrink-0">
+            Tư vấn nâng cấp
+          </a>
+        </div>
+
+        <!-- Danh sách bài viết liên quan ngay trong Modal -->
+        <div class="pt-5 border-t border-slate-200">
+          <h4 class="text-sm font-extrabold uppercase tracking-wider text-slate-900 mb-3.5">Bài Viết Liên Quan</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            ${related.map(rel => `
+              <div onclick="openNewsModal('${rel.id}')" class="group border border-slate-200 rounded-xl p-3 hover:border-blue-500 hover:bg-slate-50 transition-all cursor-pointer">
+                <span class="${rel.badgeColor} text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded">${rel.company}</span>
+                <h5 class="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 mt-1.5 group-hover:text-blue-600">${rel.title}</h5>
+                <span class="block text-[11px] text-slate-400 mt-1">${rel.date}</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+
+      openModal("newsModal");
+    }
+
+    // =========================================================================
+    // 5. RENDER SẢN PHẨM AI NỔI BẬT & MODAL CHI TIẾT SẢN PHẨM
+    // =========================================================================
+    function renderProductsSection() {
+      const companies = ["Tất cả", "OpenAI", "Google", "Anthropic"];
+      const tabsEl = document.getElementById("productFilterTabs");
+
+      tabsEl.innerHTML = companies.map(comp => {
+        const active = comp === currentProductFilter;
+        const cls = active
+          ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+          : "bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-900";
+        return `<button onclick="setProductFilter('${comp}')" class="whitespace-nowrap px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold transition-all cursor-pointer ${cls}">${comp}</button>`;
+      }).join("");
+
+      const filtered = currentProductFilter === "Tất cả"
+        ? AI_PRODUCTS
+        : AI_PRODUCTS.filter(p => p.company === currentProductFilter);
+
+      const gridEl = document.getElementById("productsGrid");
+      gridEl.innerHTML = filtered.map(prod => `
+        <article class="group bg-slate-50/70 hover:bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col">
+          <div class="relative aspect-[16/10] overflow-hidden bg-slate-200">
+            <span class="absolute top-3.5 left-3.5 z-10 ${prod.badgeColor} text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-lg shadow">
+              ${prod.company}
+            </span>
+            <img src="${prod.image}" alt="${prod.name}" onerror="this.src='https://placehold.co/700x440/1e293b/ffffff?text=${prod.company}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-extrabold text-slate-900 mb-1.5 group-hover:text-blue-600 transition-colors">${prod.name}</h3>
+              <p class="text-sm text-slate-500 mb-4">${prod.tagline}</p>
+
+              <ul class="space-y-2 mb-6">
+                ${prod.highlights.map(item => `
+                  <li class="text-xs sm:text-sm text-slate-700 flex items-start gap-2">
+                    <span class="text-emerald-600 font-black">✓</span>
+                    <span>${item}</span>
+                  </li>
+                `).join("")}
+              </ul>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200/80 flex items-center gap-2.5">
+              <button onclick="openProductModal('${prod.id}')" class="flex-1 py-2.5 px-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+                Xem chi tiết
+              </button>
+              <button onclick="goToUpgradeForm('${prod.packageLabel}')" class="flex-1 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-colors cursor-pointer">
+                Nâng cấp ngay
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function setProductFilter(comp) {
+      currentProductFilter = comp;
+      renderProductsSection();
+    }
+
+    function openProductModal(prodId) {
+      const prod = AI_PRODUCTS.find(p => p.id === prodId);
+      if (!prod) return;
+
+      document.getElementById("productModalBody").innerHTML = `
+        <div class="flex items-start justify-between gap-3 mb-4">
+          <div>
+            <span class="${prod.badgeColor} text-white text-xs font-bold uppercase px-2.5 py-1 rounded-lg">${prod.company}</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">${prod.name}</h3>
+          </div>
+          <button onclick="closeModal('productModal')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <p class="text-sm text-slate-600 mb-5">${prod.tagline}</p>
+
+        <!-- Bảng so sánh gói Miễn phí vs Nâng cấp Chính chủ -->
+        <div class="overflow-x-auto border border-slate-200 rounded-xl mb-5">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-800">
+                <th class="p-3 font-bold">Tính năng</th>
+                <th class="p-3 font-bold text-slate-500">Bản Miễn phí</th>
+                <th class="p-3 font-bold text-blue-700 bg-blue-50">Gói Nâng Cấp Chính Chủ</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              ${prod.comparison.map(row => `
+                <tr>
+                  <td class="p-3 font-semibold text-slate-800">${row.feature}</td>
+                  <td class="p-3 text-slate-500">${row.free}</td>
+                  <td class="p-3 font-semibold text-blue-700 bg-blue-50/40">${row.pro}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-4 mb-6">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Đối tượng phù hợp nhất:</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${prod.targetAudience}</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-end gap-2.5">
+          <button onclick="closeModal('productModal')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 cursor-pointer">
+            Đóng
+          </button>
+          <button onclick="closeModal('productModal'); goToUpgradeForm('${prod.packageLabel}');" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 cursor-pointer">
+            Đăng ký nâng cấp chính chủ &rarr;
+          </button>
+        </div>
+      `;
+
+      openModal("productModal");
+    }
+
+    // Chuyển mượt xuống Form Tư vấn & tự động chọn gói AI tương ứng
+    function goToUpgradeForm(packageValue) {
+      const selectEl = document.getElementById("consultPackage");
+      if (selectEl) {
+        for (let i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].value === packageValue) {
+            selectEl.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      const target = document.getElementById("tu-van-nang-cap");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          document.getElementById("consultName")?.focus();
+        }, 600);
+      }
+    }
+
+    // =========================================================================
+    // 6. RENDER THƯ VIỆN PROMPT & SAO CHÉP 1 CHẠM (CLIPBOARD)
+    // =========================================================================
+    function renderPromptsSection() {
+      const categories = ["Tất cả", "Viết Content & SEO", "Lập trình & Debug", "Phân tích dữ liệu", "Thiết kế ảnh/Video", "Học tập & Nghiên cứu"];
+      const tabsEl = document.getElementById("promptFilterTabs");
+
+      tabsEl.innerHTML = categories.map(cat => {
+        const active = cat === currentPromptFilter;
+        const cls = active
+          ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+          : "bg-white text-slate-700 border-slate-200 hover:border-emerald-500 hover:text-emerald-700";
+        return `<button onclick="setPromptFilter('${cat}')" class="whitespace-nowrap px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold transition-all cursor-pointer ${cls}">${cat}</button>`;
+      }).join("");
+
+      const filtered = currentPromptFilter === "Tất cả"
+        ? PROMPT_LIBRARY
+        : PROMPT_LIBRARY.filter(p => p.category === currentPromptFilter);
+
+      const gridEl = document.getElementById("promptsGrid");
+      gridEl.innerHTML = filtered.map(item => `
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <!-- Header thẻ Prompt -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">${item.category}</span>
+              <span class="text-xs font-bold border px-2.5 py-1 rounded-md ${item.toolBadge}">Khuyên dùng: ${item.tool}</span>
+            </div>
+
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 mb-3">${item.title}</h3>
+
+            <!-- Khung hiển thị câu lệnh -->
+            <div class="relative bg-slate-900 text-slate-100 rounded-xl p-4 mb-3.5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto">
+              <pre id="prompt-code-${item.id}" class="whitespace-pre-wrap font-mono">${item.promptText}</pre>
+            </div>
+
+            <!-- Hướng dẫn mẹo tùy biến -->
+            <p class="text-xs text-slate-600 bg-amber-50/80 border border-amber-200/70 rounded-xl p-3 mb-4 leading-relaxed">
+              💡 ${item.tip}
+            </p>
+          </div>
+
+          <!-- Nút sao chép 1 chạm -->
+          <div class="flex items-center justify-between pt-2">
+            <span class="text-[11px] text-slate-400">Bấm để sao chép toàn bộ cấu trúc lệnh</span>
+            <button id="copy-btn-${item.id}" onclick="copyPromptText('${item.id}')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Sao chép Prompt</span>
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function setPromptFilter(cat) {
+      currentPromptFilter = cat;
+      renderPromptsSection();
+    }
+
+    // Sao chép Prompt bằng document.execCommand('copy') tương thích mọi iFrame & trình duyệt
+    function copyPromptText(id) {
+      const codeEl = document.getElementById(`prompt-code-${id}`);
+      const btnEl = document.getElementById(`copy-btn-${id}`);
+      if (!codeEl || !btnEl) return;
+
+      const textToCopy = codeEl.innerText;
+      const textarea = document.createElement("textarea");
+      textarea.value = textToCopy;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      try {
+        document.execCommand("copy");
+        const originalHTML = btnEl.innerHTML;
+        btnEl.classList.remove("bg-slate-900", "hover:bg-blue-600");
+        btnEl.classList.add("bg-emerald-600");
+        btnEl.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <span>Đã sao chép!</span>
+        `;
+        setTimeout(() => {
+          btnEl.classList.remove("bg-emerald-600");
+          btnEl.classList.add("bg-slate-900", "hover:bg-blue-600");
+          btnEl.innerHTML = originalHTML;
+        }, 2000);
+      } catch (e) {
+        console.error("Copy failed", e);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // =========================================================================
+    // 7. TIỆN ÍCH MODAL & XỬ LÝ FORM TƯ VẤN
+    // =========================================================================
+    function toggleMobileMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("hidden");
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function handleConsultSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("consultName").value.trim();
+      const phone = document.getElementById("consultPhone").value.trim();
+      const pkg = document.getElementById("consultPackage").value;
+
+      document.getElementById("confirmModalText").innerHTML = `
+        Cảm ơn <strong>${name}</strong> đã quan tâm đến gói <strong>${pkg}</strong>.<br>
+        Chuyên viên hỗ trợ (<strong>0976 070758</strong>) sẽ liên hệ qua SĐT/Zalo <strong>${phone}</strong> trong ít phút!
+      `;
+      openModal("confirmModal");
+      e.target.reset();
+    }
+
+    // Khởi chạy toàn bộ ứng dụng khi trang tải xong
+    window.addEventListener("DOMContentLoaded", () => {
+      renderNewsSection();
+      renderProductsSection();
+      renderPromptsSection();
+      fetchAINews(false);
+    });
+  </script>
+</body>
+</html>
