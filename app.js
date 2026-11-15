@@ -1,271 +1,216 @@
-// Dữ liệu khởi tạo mặc định (sẽ hiển thị ngay khi bạn mở web lần đầu)
-const DEFAULT_DATA = {
-  categories: ["Tài khoản AI", "Phần mềm Marketing", "Thiết kế & Video", "Khóa học số"],
-  products: [
-    {
-      id: 101,
-      name: "Gói Trợ Lý AI Viết Content Chuẩn SEO",
-      category: "Tài khoản AI",
-      price: 290000,
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80",
-      desc: "Tài khoản chính chủ, hỗ trợ viết bài blog, kịch bản TikTok và email marketing tự động."
-    },
-    {
-      id: 102,
-      name: "Phần Mềm Tự Động Đăng Bài Đa Kênh",
-      category: "Phần mềm Marketing",
-      price: 550000,
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
-      desc: "Lên lịch đăng bài tự động lên Facebook, Zalo, TikTok tiết kiệm 80% thời gian quản trị."
-    },
-    {
-      id: 103,
-      name: "Công Cụ Tạo Video AI Giọng Đọc Tự Nhiên",
-      category: "Thiết kế & Video",
-      price: 420000,
-      image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=600&q=80",
-      desc: "Chuyển văn bản thành video thuyết minh chuyên nghiệp với hơn 50 giọng đọc tiếng Việt."
-    },
-    {
-      id: 104,
-      name: "Khóa Học Ứng Dụng AI Vào Kinh Doanh Thực Chiến",
-      category: "Khóa học số",
-      price: 790000,
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
-      desc: "Trọn bộ 30 video hướng dẫn xây dựng quy trình bán hàng tự động từ A-Z."
-    }
-  ]
-};
-
-// Lấy dữ liệu từ LocalStorage hoặc nạp mặc định
-function getStoreData() {
-  const saved = localStorage.getItem("shop_ai_data");
-  if (!saved) {
-    localStorage.setItem("shop_ai_data", JSON.stringify(DEFAULT_DATA));
-    return DEFAULT_DATA;
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "Trợ Lý AI Viết Content & SEO Toàn Diện",
+    category: "Tài khoản AI",
+    badge: "Bán chạy",
+    badgeClass: "badge-hot",
+    rating: "4.9 (128)",
+    price: 290000,
+    oldPrice: 450000,
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=700&q=80",
+    desc: "Tự động hóa quy trình lên dàn ý, viết bài chuẩn SEO, kịch bản TikTok và email bán hàng chỉ trong 30 giây.",
+    features: ["Tài khoản riêng tư, bảo hành trọn đời", "Tích hợp sẵn 100+ mẫu câu lệnh chuẩn", "Hỗ trợ đa ngôn ngữ tiếng Việt tự nhiên"]
+  },
+  {
+    id: 2,
+    name: "Phần Mềm Tự Động Đăng Bài & Chăm Sóc Đa Kênh",
+    category: "Phần mềm Marketing",
+    badge: "Phổ biến",
+    badgeClass: "badge-pro",
+    rating: "4.8 (94)",
+    price: 550000,
+    oldPrice: 800000,
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
+    desc: "Quản lý hàng chục fanpage, hội nhóm và kênh truyền thông trên một bảng điều khiển duy nhất.",
+    features: ["Lên lịch đăng bài tự động cả tháng", "Tự động trả lời bình luận & inbox", "Báo cáo thống kê tương tác trực quan"]
+  },
+  {
+    id: 3,
+    name: "Studio Tạo Video AI & Giọng Đọc Truyền Cảm",
+    category: "Thiết kế & Video",
+    badge: "Mới",
+    badgeClass: "badge-new",
+    rating: "5.0 (62)",
+    price: 420000,
+    oldPrice: 600000,
+    image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=700&q=80",
+    desc: "Biến văn bản thành video thuyết minh chuyên nghiệp với nhân vật ảo MC và hơn 50 giọng đọc 3 miền.",
+    features: ["Xuất video độ phân giải Full HD / 4K", "Không dính logo bản quyền (Watermark)", "Kho nhạc nền và hiệu ứng miễn phí"]
+  },
+  {
+    id: 4,
+    name: "Combo Thiết Kế Website Bán Hàng Chuẩn SEO",
+    category: "Giải pháp Web",
+    badge: "Trọn gói",
+    badgeClass: "badge-pro",
+    rating: "4.9 (210)",
+    price: 1990000,
+    oldPrice: 3500000,
+    image: "https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=700&q=80",
+    desc: "Xây dựng trang giới thiệu doanh nghiệp, cửa hàng trực tuyến tối ưu tốc độ tải trang trên điện thoại và máy tính.",
+    features: ["Giao diện chuẩn Mobile, Tablet, Desktop", "Tích hợp nút gọi, Zalo, Messenger nhanh", "Tặng kèm tên miền & hướng dẫn quản trị"]
+  },
+  {
+    id: 5,
+    name: "Khóa Học Ứng Dụng AI Xây Dựng Hệ Thống Bán Hàng",
+    category: "Đào tạo số",
+    badge: "Ưu đãi",
+    badgeClass: "badge-hot",
+    rating: "4.9 (315)",
+    price: 690000,
+    oldPrice: 1200000,
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80",
+    desc: "Lộ trình thực chiến giúp chủ shop và marketer cắt giảm 70% chi phí nhân sự nhờ ứng dụng công cụ AI.",
+    features: ["35 video bài giảng quay sẵn sắc nét", "Nhóm hỗ trợ giải đáp 1-1 hàng tuần", "Cập nhật miễn phí các công cụ AI mới nhất"]
+  },
+  {
+    id: 6,
+    name: "Chatbot AI Tư Vấn & Chốt Đơn Tự Động 24/7",
+    category: "Tài khoản AI",
+    badge: "Hot",
+    badgeClass: "badge-hot",
+    rating: "4.8 (87)",
+    price: 890000,
+    oldPrice: 1300000,
+    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=700&q=80",
+    desc: "Huấn luyện AI học toàn bộ bảng giá, chính sách của shop để tự động tư vấn và xin số điện thoại khách hàng.",
+    features: ["Kết nối dễ dàng với Fanpage & Website", "Hiểu ngữ cảnh, trả lời tự nhiên như nhân viên", "Tự động gửi thông báo đơn hàng về Telegram"]
   }
-  return JSON.parse(saved);
+];
+
+let selectedCategory = "Tất cả";
+
+function formatVND(amount) {
+  return Number(amount).toLocaleString("vi-VN") + " đ";
 }
 
-function saveStoreData(data) {
-  localStorage.setItem("shop_ai_data", JSON.stringify(data));
-}
-
-function formatVND(number) {
-  return Number(number).toLocaleString("vi-VN") + " đ";
-}
-
-// ================= LOGIC TRANG CHỦ (index.html) =================
-let currentCategory = "Tất cả";
-
-function initShopPage() {
-  const productGrid = document.getElementById("productsGrid");
-  if (!productGrid) return;
-
-  renderCategoryTabs();
+function initPage() {
+  renderCategories();
   renderProducts();
 
   document.getElementById("searchInput").addEventListener("input", renderProducts);
+  document.getElementById("sortSelect").addEventListener("change", renderProducts);
 }
 
-function renderCategoryTabs() {
-  const data = getStoreData();
-  const tabsContainer = document.getElementById("categoryTabs");
-  const allCats = ["Tất cả", ...data.categories];
+function renderCategories() {
+  const categories = ["Tất cả", ...new Set(PRODUCTS.map(p => p.category))];
+  const container = document.getElementById("categoryTabs");
 
-  tabsContainer.innerHTML = allCats.map(cat => `
-    <button class="tab-btn ${cat === currentCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">
+  container.innerHTML = categories.map(cat => `
+    <button class="tab-btn ${cat === selectedCategory ? 'active' : ''}" onclick="setCategory('${cat}')">
       ${cat}
     </button>
   `).join("");
 }
 
-function selectCategory(cat) {
-  currentCategory = cat;
-  renderCategoryTabs();
+function setCategory(cat) {
+  selectedCategory = cat;
+  renderCategories();
   renderProducts();
 }
 
 function renderProducts() {
-  const data = getStoreData();
   const keyword = document.getElementById("searchInput").value.toLowerCase().trim();
+  const sortBy = document.getElementById("sortSelect").value;
   const grid = document.getElementById("productsGrid");
 
-  const filtered = data.products.filter(p => {
-    const matchCat = currentCategory === "Tất cả" || p.category === currentCategory;
-    const matchKey = p.name.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword);
-    return matchCat && matchKey;
+  let filtered = PRODUCTS.filter(p => {
+    const matchCat = selectedCategory === "Tất cả" || p.category === selectedCategory;
+    const matchText = p.name.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword);
+    return matchCat && matchText;
   });
 
+  if (sortBy === "price-asc") filtered.sort((a, b) => a.price - b.price);
+  if (sortBy === "price-desc") filtered.sort((a, b) => b.price - a.price);
+
   if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#64748b; padding:2rem;">Không tìm thấy sản phẩm phù hợp.</p>`;
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 3rem 1rem; background: #fff; border-radius: 16px; border: 1px solid var(--border);">
+        <p style="color: var(--muted); font-size: 1.05rem;">Không tìm thấy sản phẩm nào khớp với từ khóa của bạn.</p>
+      </div>`;
     return;
   }
 
   grid.innerHTML = filtered.map(p => `
-    <div class="product-card">
-      <img src="${p.image || 'https://via.placeholder.com/400x250?text=San+Pham'}" alt="${p.name}" class="product-img">
+    <article class="product-card">
+      <div class="product-thumb">
+        ${p.badge ? `<span class="badge-tag ${p.badgeClass}">${p.badge}</span>` : ""}
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+      </div>
       <div class="product-body">
-        <span class="product-cat">${p.category}</span>
+        <div class="product-meta">
+          <span class="product-cat">${p.category}</span>
+          <span class="product-rating">★ ${p.rating}</span>
+        </div>
         <h3 class="product-title">${p.name}</h3>
         <p class="product-desc">${p.desc}</p>
+        <ul class="product-features">
+          ${p.features.slice(0, 2).map(f => `<li>${f}</li>`).join("")}
+        </ul>
         <div class="product-footer">
-          <span class="product-price">${formatVND(p.price)}</span>
-          <button class="btn btn-primary" onclick="openOrderModal('${p.name}', ${p.price})">Đăng ký ngay</button>
+          <div class="price-box">
+            ${p.oldPrice ? `<span class="price-old">${formatVND(p.oldPrice)}</span>` : ""}
+            <span class="price-current">${formatVND(p.price)}</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-icon" onclick="openDetailModal(${p.id})" title="Xem chi tiết">Chi tiết</button>
+            <button class="btn btn-primary" onclick="openOrderModal(${p.id})">Đăng ký</button>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
   `).join("");
 }
 
-// Modal đặt hàng / nhận tư vấn nhanh
-function openOrderModal(productName, price) {
-  document.getElementById("orderProductName").innerText = `${productName} (${formatVND(price)})`;
+// Xem chi tiết sản phẩm
+function openDetailModal(id) {
+  const p = PRODUCTS.find(item => item.id === id);
+  if (!p) return;
+
+  document.getElementById("detailContent").innerHTML = `
+    <img src="${p.image}" alt="${p.name}" style="width:100%; height:210px; object-fit:cover; border-radius:12px; margin-bottom:1rem;">
+    <span class="product-cat">${p.category}</span>
+    <h3 style="font-size:1.3rem; margin:0.5rem 0; color:var(--secondary);">${p.name}</h3>
+    <p style="color:var(--muted); font-size:0.95rem; margin-bottom:1rem;">${p.desc}</p>
+    <h4 style="font-size:0.92rem; margin-bottom:0.5rem;">Quyền lợi & Tính năng nổi bật:</h4>
+    <ul class="product-features" style="margin-bottom:1.25rem;">
+      ${p.features.map(f => `<li>${f}</li>`).join("")}
+    </ul>
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:1rem; border-top:1px solid var(--border);">
+      <div>
+        ${p.oldPrice ? `<span class="price-old">${formatVND(p.oldPrice)}</span><br>` : ""}
+        <span class="price-current" style="font-size:1.35rem;">${formatVND(p.price)}</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-outline" onclick="closeModal('detailModal')">Đóng</button>
+        <button class="btn btn-primary" onclick="closeModal('detailModal'); openOrderModal(${p.id});">Đăng ký ngay</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("detailModal").classList.add("open");
+}
+
+// Mở form đăng ký tư vấn / đặt mua
+function openOrderModal(id) {
+  const p = PRODUCTS.find(item => item.id === id);
+  if (!p) return;
+
+  document.getElementById("orderSummary").innerText = `${p.name} — ${formatVND(p.price)}`;
   document.getElementById("orderModal").classList.add("open");
 }
 
-function closeOrderModal() {
-  document.getElementById("orderModal").classList.remove("open");
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove("open");
 }
 
-function submitOrder(e) {
+function handleOrderSubmit(e) {
   e.preventDefault();
   const name = document.getElementById("cusName").value;
   const phone = document.getElementById("cusPhone").value;
-  alert(`Cảm ơn ${name}! Yêu cầu tư vấn đã được ghi nhận. Chúng tôi sẽ liên hệ qua số ${phone} trong ít phút.`);
-  closeOrderModal();
+  alert(`Cảm ơn ${name}! Chúng tôi đã nhận được yêu cầu và sẽ liên hệ qua số ${phone} trong ít phút.`);
+  closeModal("orderModal");
   e.target.reset();
 }
 
-// ================= LOGIC TRANG QUẢN TRỊ (admin.html) =================
-function initAdminPage() {
-  const tableBody = document.getElementById("adminProductTable");
-  if (!tableBody) return;
-
-  renderAdminCategories();
-  renderAdminProducts();
-
-  document.getElementById("productForm").addEventListener("submit", handleSaveProduct);
-}
-
-function renderAdminCategories() {
-  const data = getStoreData();
-  const select = document.getElementById("prodCategory");
-  const list = document.getElementById("categoryList");
-
-  select.innerHTML = data.categories.map(c => `<option value="${c}">${c}</option>`).join("");
-  list.innerHTML = data.categories.map((c, idx) => `
-    <span style="display:inline-flex; align-items:center; gap:6px; background:#e2e8f0; padding:4px 10px; border-radius:6px; font-size:0.85rem; margin:3px;">
-      ${c} <b style="cursor:pointer; color:#ef4444;" onclick="deleteCategory(${idx})">&times;</b>
-    </span>
-  `).join("");
-}
-
-function addCategory() {
-  const input = document.getElementById("newCatName");
-  const val = input.value.trim();
-  if (!val) return;
-
-  const data = getStoreData();
-  if (!data.categories.includes(val)) {
-    data.categories.push(val);
-    saveStoreData(data);
-    renderAdminCategories();
-  }
-  input.value = "";
-}
-
-function deleteCategory(index) {
-  if (!confirm("Xóa danh mục này?")) return;
-  const data = getStoreData();
-  data.categories.splice(index, 1);
-  saveStoreData(data);
-  renderAdminCategories();
-}
-
-function renderAdminProducts() {
-  const data = getStoreData();
-  const tbody = document.getElementById("adminProductTable");
-
-  tbody.innerHTML = data.products.map(p => `
-    <tr>
-      <td><strong>${p.name}</strong><br><small style="color:#64748b">${p.category}</small></td>
-      <td style="color:#ef4444; font-weight:600;">${formatVND(p.price)}</td>
-      <td>
-        <button class="btn btn-outline" style="padding:4px 8px; font-size:0.8rem;" onclick="editProduct(${p.id})">Sửa</button>
-        <button class="btn btn-danger" style="padding:4px 8px; font-size:0.8rem;" onclick="deleteProduct(${p.id})">Xóa</button>
-      </td>
-    </tr>
-  `).join("");
-}
-
-function handleSaveProduct(e) {
-  e.preventDefault();
-  const data = getStoreData();
-  const editId = document.getElementById("prodId").value;
-
-  const productObj = {
-    id: editId ? Number(editId) : Date.now(),
-    name: document.getElementById("prodName").value.trim(),
-    category: document.getElementById("prodCategory").value,
-    price: Number(document.getElementById("prodPrice").value),
-    image: document.getElementById("prodImage").value.trim(),
-    desc: document.getElementById("prodDesc").value.trim()
-  };
-
-  if (editId) {
-    const idx = data.products.findIndex(p => p.id === Number(editId));
-    if (idx !== -1) data.products[idx] = productObj;
-  } else {
-    data.products.unshift(productObj);
-  }
-
-  saveStoreData(data);
-  resetProductForm();
-  renderAdminProducts();
-  alert("Đã lưu sản phẩm thành công!");
-}
-
-function editProduct(id) {
-  const data = getStoreData();
-  const p = data.products.find(item => item.id === id);
-  if (!p) return;
-
-  document.getElementById("prodId").value = p.id;
-  document.getElementById("prodName").value = p.name;
-  document.getElementById("prodCategory").value = p.category;
-  document.getElementById("prodPrice").value = p.price;
-  document.getElementById("prodImage").value = p.image;
-  document.getElementById("prodDesc").value = p.desc;
-  document.getElementById("formTitle").innerText = "Cập nhật sản phẩm";
-}
-
-function deleteProduct(id) {
-  if (!confirm("Bạn chắc chắn muốn xóa sản phẩm này?")) return;
-  const data = getStoreData();
-  data.products = data.products.filter(p => p.id !== id);
-  saveStoreData(data);
-  renderAdminProducts();
-}
-
-function resetProductForm() {
-  document.getElementById("productForm").reset();
-  document.getElementById("prodId").value = "";
-  document.getElementById("formTitle").innerText = "Thêm sản phẩm mới";
-}
-
-// Xuất dữ liệu ra file JSON để cập nhật cứng lên GitHub khi cần
-function exportJSON() {
-  const data = JSON.stringify(getStoreData(), null, 2);
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "shop-data.json";
-  a.click();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  initShopPage();
-  initAdminPage();
-});
+document.addEventListener("DOMContentLoaded", initPage);
